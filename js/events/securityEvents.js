@@ -42,13 +42,16 @@ export function initializeSecurityEvents() {
       STATE.sessionUnlockedNotes.delete(noteToProcess.dataset.id);
       NoteRenderer.renderNoteState(noteToProcess);
       StateController.runUpdates();
+
+      // Guardar documento para persistir el re-bloqueo
+      await window.DocumentController.saveCurrentDocument();
       return;
     }
 
     // Apply lock with specific type
     const lockType = action.split('-')[1];
 
-    const applyLock = (hash, type) => {
+    const applyLock = async (hash, type) => {
       const editable = noteToProcess.querySelector('.editable-note');
       noteToProcess.dataset.lockedContent = editable.innerHTML;
       noteToProcess.dataset.lockType = type;
@@ -56,13 +59,16 @@ export function initializeSecurityEvents() {
       noteToProcess.dataset.passwordHash = JSON.stringify(hash);
       NoteRenderer.renderNoteState(noteToProcess);
       StateController.runUpdates();
+
+      // Guardar documento para persistir el bloqueo
+      await window.DocumentController.saveCurrentDocument();
       window.NotificationService.showNotification('Nota bloqueada.');
     };
 
     if (lockType === 'universal') {
-      applyLock(STATE.appData.universalPasswordHash, 'universal');
+      await applyLock(STATE.appData.universalPasswordHash, 'universal');
     } else if (lockType === 'document') {
-      applyLock(STATE.appData.documentPasswords[STATE.currentDocumentName], 'document');
+      await applyLock(STATE.appData.documentPasswords[STATE.currentDocumentName], 'document');
     } else if (lockType === 'exclusive') {
       const { newPass, newHint } = await SecurityService.showSetPasswordModal('Crear Bloqueo Exclusivo', true);
       if (newPass) {
@@ -74,6 +80,9 @@ export function initializeSecurityEvents() {
         noteToLock.dataset.passwordHash = JSON.stringify(hashData);
         NoteRenderer.renderNoteState(noteToLock);
         StateController.runUpdates();
+
+        // Guardar documento para persistir el bloqueo
+        await window.DocumentController.saveCurrentDocument();
         window.NotificationService.showNotification('Nota bloqueada con contraseña exclusiva.');
       }
     }

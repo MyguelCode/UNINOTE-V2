@@ -199,7 +199,7 @@ export function initializeUIEvents() {
   });
 
   // Date picker
-  saveDateBtn.addEventListener('click', () => {
+  saveDateBtn.addEventListener('click', async () => {
     if (STATE.activeNoteForDatePicker && dateTimeInput.value) {
       const date = new Date(dateTimeInput.value);
       STATE.activeNoteForDatePicker.dataset.dueDate = date.toISOString();
@@ -208,13 +208,19 @@ export function initializeUIEvents() {
     }
     datePickerModalOverlay.classList.add('hidden');
     StateController.runUpdates();
+
+    // Guardar documento para persistir la fecha
+    await window.DocumentController.saveCurrentDocument();
   });
 
-  removeDateBtn.addEventListener('click', () => {
+  removeDateBtn.addEventListener('click', async () => {
     if (STATE.activeNoteForDatePicker) {
       STATE.activeNoteForDatePicker.dataset.dueDate = '';
       datePickerModalOverlay.classList.add('hidden');
       StateController.runUpdates();
+
+      // Guardar documento para persistir la eliminación de fecha
+      await window.DocumentController.saveCurrentDocument();
     }
   });
 

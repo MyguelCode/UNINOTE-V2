@@ -73,8 +73,13 @@ export function initializeNoteEvents() {
       console.log('🔵 FINALLY: Cerrando overflow menu (GARANTIZADO)');
       overflowMenu.style.display = 'none';
       overflowMenu.classList.remove('icon-grid'); // ⚡ Remover clase para que CSS display:grid !important no interfiera
-      STATE.activeNoteForMenu = null;
-      console.log('🔵 FINALLY: Overflow menu cerrado, activeNoteForMenu = null');
+
+      // ⚡ IMPORTANTE: No limpiar activeNoteForMenu si la acción fue emoji-picker
+      // porque el emoji picker necesita que persista para aplicar el emoji seleccionado
+      if (button.dataset.action !== 'emoji-picker') {
+        STATE.activeNoteForMenu = null;
+      }
+      console.log('🔵 FINALLY: Overflow menu cerrado, activeNoteForMenu =', STATE.activeNoteForMenu?.dataset?.id || 'null');
     }
   });
 
