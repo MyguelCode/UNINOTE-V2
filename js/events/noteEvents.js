@@ -432,17 +432,49 @@ async function handleNoteAction(e, action, noteLi, noteData, parentArray, index,
 
       // Posicionar y mostrar menú
       const menuRect = target.getBoundingClientRect();
-      overflowMenu.style.display = 'block';
-      overflowMenu.style.top = `${menuRect.bottom + 5}px`;
+
+      // Respetar el modo grid o block según la clase icon-grid
+      if (config.menuShowText) {
+        overflowMenu.style.display = 'block';
+      } else {
+        overflowMenu.style.display = 'grid';
+      }
+
+      // Agregar max-height y scroll para evitar que se salga de la pantalla
+      const viewportHeight = window.innerHeight;
+      const maxHeight = viewportHeight - 100; // Dejar 100px de margen
+      overflowMenu.style.maxHeight = `${maxHeight}px`;
+      overflowMenu.style.overflowY = 'auto';
+
+      // Calcular posición inicial (debajo del botón)
+      let menuTop = menuRect.bottom + 5;
+
+      // Posicionar temporalmente para obtener dimensiones
+      overflowMenu.style.top = `${menuTop}px`;
       let menuLeftPos = menuRect.left - overflowMenu.offsetWidth + menuRect.width;
       if (menuLeftPos < 0) menuLeftPos = 5;
       overflowMenu.style.left = `${menuLeftPos}px`;
+
+      // Verificar si el menú se sale de la pantalla por abajo
+      const menuHeight = overflowMenu.offsetHeight;
+      const spaceBelow = viewportHeight - menuRect.bottom;
+      const spaceAbove = menuRect.top;
+
+      // Si no cabe abajo pero sí arriba, mostrar arriba del botón
+      if (menuTop + menuHeight > viewportHeight && spaceAbove > spaceBelow) {
+        menuTop = menuRect.top - menuHeight - 5;
+        overflowMenu.style.top = `${menuTop}px`;
+        console.log('🟢 SHOW-MENU: Reposicionado arriba del botón');
+      }
 
       console.log('🟢 SHOW-MENU: Menú posicionado y mostrado', {
         display: overflowMenu.style.display,
         hasIconGrid: overflowMenu.classList.contains('icon-grid'),
         top: overflowMenu.style.top,
-        left: overflowMenu.style.left
+        left: overflowMenu.style.left,
+        maxHeight: overflowMenu.style.maxHeight,
+        menuHeight: menuHeight,
+        viewportHeight: viewportHeight
       });
 
       STATE.activeNoteForMenu = noteLi;
