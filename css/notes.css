@@ -1,0 +1,247 @@
+/* === ESTILOS DE NOTAS - UNINOTE === */
+
+.subnotes {
+    margin-top: 8px;
+    border-left: 2px solid var(--primary-light-color);
+    padding-left: 25px;
+}
+
+.note {
+    position: relative;
+    margin-bottom: 8px;
+}
+
+.note-container {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    background-color: var(--note-bg-color);
+    padding: 6px;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    transition: border-color 0.3s, background-color 0.2s;
+    gap: 8px;
+}
+
+.note.selected > .note-container, .note.highlight > .note-container {
+    background-color: var(--selected-bg-color);
+    border-color: var(--primary-light-color);
+}
+
+.note-container .note-icon {
+    font-size: 1.1rem;
+    text-align: center;
+    cursor: default;
+    width: 20px;
+    display: none;
+}
+
+.note-container .note-icon.icon-visible {
+    display: block;
+}
+
+.note-container .note-number {
+    font-weight: bold;
+    color: var(--primary-light-color);
+    cursor: help;
+}
+
+.editable-note {
+    flex: 1;
+    min-height: 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 6px 8px;
+    font-size: 16px;
+    line-height: 1.5;
+    background-color: var(--note-bg-color);
+    color: var(--text-color);
+    transition: border-color 0.2s, background-color 0.3s;
+}
+
+.editable-note:focus {
+    border-color: var(--primary-light-color);
+    outline: none;
+}
+
+.editable-note[contenteditable]:empty::before {
+    content: 'Nueva Nota';
+    color: #adb5bd;
+    pointer-events: none;
+}
+
+.editable-note a {
+    color: #1e88e5;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.editable-note a:hover {
+    text-decoration: none;
+}
+
+/* Notas bloqueadas */
+.note.is-locked > .note-container {
+    background-color: var(--locked-bg-color);
+    cursor: pointer;
+}
+
+.note.is-locked .editable-note {
+    background-color: transparent !important;
+    border-color: transparent;
+    cursor: pointer;
+    color: var(--locked-text-color);
+}
+
+.note.is-locked .editable-note:before {
+    content: none;
+}
+
+.note.is-locked .lock-hint {
+    font-style: italic;
+}
+
+.note.is-locked > .subnotes {
+    display: none !important;
+}
+
+.note.is-locked > .note-container button:not([data-action="lock"]),
+.note.is-locked > .note-container .note-selector,
+.note.is-locked > .note-container .drag-handle,
+.note.is-locked > .note-container .countdown-timer,
+.note.is-locked > .note-container .note-number,
+.note.is-locked > .note-container [data-action="toggle"] {
+    display: none !important;
+}
+
+.note.is-locked > .note-container .note-icon,
+.note.is-locked > .note-container button[data-action="lock"] {
+    display: flex !important;
+    visibility: visible !important;
+}
+
+/* Botones de nota */
+.note-container button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    font-size: 1.2rem;
+    color: #9e9e9e;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s, color 0.2s;
+    flex-shrink: 0;
+}
+
+.note-container button:hover {
+    background-color: #eceff1;
+    color: var(--primary-color);
+}
+
+.note-container button[data-action="toggle"] {
+    display: none;
+}
+
+.note-container button[data-action="toggle"].toggle-visible {
+    display: flex;
+}
+
+/* Countdown timer */
+.countdown-timer {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #6c757d;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background-color: var(--bg-color);
+    margin: 0 4px;
+    white-space: nowrap;
+    transition: color 0.3s;
+}
+
+[data-theme="dark"] .countdown-timer {
+    color: #adb5bd;
+}
+
+.note.alert-early > .note-container {
+    border-color: var(--alert-early-color);
+}
+
+.note.alert-early .countdown-timer {
+    color: var(--alert-early-color);
+}
+
+.note.alert-urgent > .note-container {
+    border-color: var(--alert-urgent-color);
+}
+
+.note.alert-urgent .countdown-timer {
+    color: var(--alert-urgent-color);
+}
+
+.note.overdue > .note-container {
+    border-color: var(--overdue-color);
+}
+
+.note.overdue .countdown-timer {
+    color: var(--overdue-color);
+}
+
+/* Estados de nota */
+.note[data-status="inprogress"] > .note-container > .editable-note {
+    background-color: var(--inprogress-bg-color);
+}
+
+.note[data-status="done"] > .note-container > .editable-note {
+    background-color: var(--done-bg-color);
+    text-decoration: none;
+}
+
+[data-theme="dark"] .note[data-status="done"] > .note-container > .editable-note {
+    color: white;
+}
+
+/* Drag & Drop */
+.drag-handle {
+    cursor: grab;
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+.drag-handle:active {
+    cursor: grabbing;
+}
+
+.dragging {
+    opacity: 0.4;
+}
+
+.drop-indicator {
+    height: 3px;
+    background-color: var(--primary-light-color);
+    border-radius: 2px;
+    position: absolute;
+    width: 100%;
+    z-index: 10;
+}
+
+.drop-target-nest {
+    border-color: var(--primary-light-color) !important;
+    box-shadow: 0 0 10px rgba(57, 73, 171, 0.3);
+}
+
+/* Vista de archivo */
+body[data-view-mode="archive"] .note:not([data-is-archived="true"]),
+body[data-view-mode="active"] .note[data-is-archived="true"] {
+    display: none !important;
+}
+
+body[data-view-mode="archive"] .note-container button[data-action="archive"],
+body:not([data-view-mode="archive"]) .note-container button[data-action="unarchive"] {
+    display: none !important;
+}

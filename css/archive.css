@@ -1,0 +1,104 @@
+/* === VISTA DE ARCHIVO - UNINOTE === */
+
+#archive-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+#archive-controls label {
+    font-weight: bold;
+}
+
+#archive-sort-select {
+    padding: 5px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    background-color: var(--note-bg-color);
+    color: var(--text-color);
+}
+
+.archive-view-options {
+    display: flex;
+    gap: 10px;
+}
+
+#archive-timeline-container {
+    padding-left: 0;
+}
+
+.archive-uninote-group > .group-header {
+    font-size: 1.5rem;
+    margin-top: 2rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 3px solid var(--primary-color);
+}
+
+.archive-month-group > .group-header,
+.archive-day-group > .group-header {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-top: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--primary-light-color);
+    cursor: pointer;
+}
+
+.archive-day-group > .group-header {
+    font-size: 1rem;
+    margin-top: 1rem;
+    margin-left: 25px;
+    border-bottom-style: dashed;
+}
+
+.archive-day-group .archive-day-uninote-header {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: var(--locked-text-color);
+    margin-top: 10px;
+    padding-left: 10px;
+}
+
+.archive-day-group > .group-header::before,
+.archive-month-group > .group-header::before {
+    content: '▼ ';
+    display: inline-block;
+    transition: transform 0.2s;
+}
+
+.archive-day-group.collapsed > .group-header::before,
+.archive-month-group.collapsed > .group-header::before {
+    transform: rotate(-90deg);
+}
+
+.archive-day-group.collapsed > ul,
+.archive-month-group.collapsed > .notes-container,
+.archive-day-group.collapsed > h4 {
+    display: none;
+}
+
+.notes-container {
+    padding-left: 25px;
+}
+
+.note[data-is-archived="true"] .note-meta {
+    font-size: 0.75rem;
+    color: var(--locked-text-color);
+    margin-top: 4px;
+    padding-left: 10px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.note[data-is-archived="true"] .note-meta span {
+    background-color: var(--bg-color);
+    padding: 2px 5px;
+    border-radius: 4px;
+}
+
+.note[data-is-archived="true"] .note-meta .note-origin {
+    font-style: italic;
+}

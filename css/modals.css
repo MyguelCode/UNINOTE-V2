@@ -1,0 +1,241 @@
+/* === ESTILOS DE MODALES - UNINOTE === */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+#prompt-modal-overlay, #alert-modal-overlay, #confirmation-modal-overlay {
+    z-index: 1050;
+}
+
+.modal-box {
+    background-color: var(--modal-bg-color);
+    padding: 2rem;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    max-width: 450px;
+    color: var(--text-color);
+}
+
+.modal-box h2 {
+    margin-top: 0;
+    color: var(--primary-color);
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.modal-box .form-field {
+    margin-bottom: 1rem;
+    text-align: left;
+}
+
+.modal-box label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.modal-box input[type="text"], .modal-box input[type="password"] {
+    width: 100%;
+    padding: 0.6rem;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: inherit;
+    box-sizing: border-box;
+}
+
+.password-field-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.password-field-container .modal-actions {
+    margin-top: 0.5rem;
+}
+
+.password-field-container input[readonly] {
+    background-color: var(--locked-bg-color);
+    cursor: default;
+}
+
+#date-time-input-container {
+    margin: 1.5rem 0;
+}
+
+#date-time-input, #prompt-input {
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: inherit;
+}
+
+#prompt-input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.modal-button {
+    border: none;
+    padding: 0.8rem 1.2rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.modal-button:active {
+    transform: scale(0.98);
+}
+
+.modal-button.confirm-delete, #import-action-replace, #remove-date-btn {
+    background-color: #e53935;
+    color: white;
+}
+
+#import-action-append, #import-action-merge, #save-date-btn, #prompt-confirm-btn, #alert-ok-btn, .modal-button.confirm-action {
+    background-color: #43a047;
+    color: white;
+}
+
+.modal-button.cancel-action {
+    background-color: #e0e0e0;
+    color: #333;
+}
+
+/* App Lock Overlay */
+#app-lock-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-color);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.app-lock-box {
+    background-color: var(--modal-bg-color);
+    padding: 2.5rem;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 90%;
+}
+
+.app-lock-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 1.5rem;
+}
+
+/* Help Modal */
+#help-modal .modal-box, #notification-center-modal .modal-box {
+    text-align: left;
+    max-width: 600px;
+}
+
+/* App Settings Modal - MUCHO más ancho para configuración de botones */
+#app-settings-modal-overlay {
+    overflow: hidden !important;
+}
+
+#app-settings-modal-overlay .modal-box {
+    text-align: left !important;
+    max-width: 95vw !important;
+    width: 1400px !important;
+    max-height: 85vh !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    padding: 1.5rem !important;
+    box-sizing: border-box !important;
+}
+
+#help-modal ul, #notification-list {
+    list-style-type: none;
+    padding-left: 0;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+#help-modal ul {
+    list-style-type: disc;
+    padding-left: 20px;
+}
+
+#help-modal code {
+    background-color: var(--bg-color);
+    padding: 2px 5px;
+    border-radius: 4px;
+    font-family: monospace;
+}
+
+/* Document Locked Message */
+#doc-locked-message {
+    text-align: center;
+    padding: 3rem 1rem;
+    margin-top: 2rem;
+    border: 2px dashed var(--border-color);
+    border-radius: 12px;
+    background-color: var(--note-bg-color);
+}
+
+#doc-locked-message h2 {
+    color: var(--primary-color);
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+}
+
+#doc-locked-message p {
+    color: var(--locked-text-color);
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+}
+
+/* Unarchive Options */
+#unarchive-options-list {
+    list-style-type: none;
+    padding-left: 0;
+    max-height: 200px;
+    overflow-y: auto;
+    margin-top: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+}
+
+#unarchive-options-list li {
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#unarchive-options-list li:hover {
+    background-color: var(--selected-bg-color);
+}

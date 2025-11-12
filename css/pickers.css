@@ -1,0 +1,274 @@
+/* === PICKERS Y MENÚS - UNINOTE === */
+
+.picker {
+    position: absolute;
+    display: none;
+    background-color: var(--modal-bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1010;
+    color: var(--text-color);
+}
+
+/* Document Menu y Transfer Menu */
+#document-menu, #transfer-menu {
+    position: absolute;
+    top: 110%;
+    background-color: var(--modal-bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1010;
+    padding: 8px;
+    list-style: none;
+    min-width: 250px;
+}
+
+#document-menu {
+    left: 0;
+    width: 300px;
+}
+
+#transfer-menu {
+    right: 0;
+}
+
+#document-menu li, #transfer-menu li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#document-menu li:hover, #transfer-menu li:hover {
+    background-color: var(--selected-bg-color);
+}
+
+#transfer-menu label {
+    cursor: pointer;
+    display: block;
+    width: 100%;
+}
+
+#document-menu li.active-doc {
+    font-weight: bold;
+    color: var(--primary-light-color);
+}
+
+#document-menu .favorite-star {
+    font-size: 1.2rem;
+    color: #ccc;
+}
+
+#document-menu .favorite-star.is-favorite {
+    color: #f59e0b;
+}
+
+#document-menu hr, #transfer-menu hr {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 8px 0;
+}
+
+#document-menu .menu-action {
+    color: var(--primary-color);
+}
+
+/* Icon Picker */
+#icon-picker {
+    width: 350px;
+    overflow: hidden;
+}
+
+.picker-tabs {
+    display: flex;
+    background-color: #424242;
+    flex-wrap: wrap;
+}
+
+.picker-tabs button {
+    flex-grow: 1;
+    padding: 10px 5px;
+    font-size: 1.2rem;
+    opacity: 0.6;
+    color: white;
+    background: none;
+    border: none;
+}
+
+.picker-tabs button.active {
+    opacity: 1;
+    background-color: var(--modal-bg-color);
+}
+
+.picker-panels {
+    padding: 8px;
+    height: 200px;
+    overflow-y: auto;
+}
+
+.picker-panel {
+    display: none;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 4px;
+}
+
+.picker-panel.active {
+    display: grid;
+}
+
+.picker-panel button {
+    font-size: 1.5rem;
+    width: 40px;
+    height: 40px;
+}
+
+/* Context Menu, Lock Menu y Overflow Menu */
+#context-menu, #lock-menu, #overflow-menu {
+    padding: 5px;
+    min-width: 240px;
+}
+
+#context-menu button, #lock-menu button {
+    width: 100%;
+    justify-content: flex-start;
+    font-size: 0.9rem;
+    color: var(--text-color);
+    background: none;
+    border: none;
+    padding: 8px 12px;
+    text-align: left;
+    border-radius: 4px;
+    display: block;
+}
+
+/* Overflow menu - modo lista (con texto) */
+#overflow-menu:not(.icon-grid) button {
+    width: 100%;
+    justify-content: flex-start;
+    font-size: 0.9rem;
+    color: var(--text-color);
+    background: none;
+    border: none;
+    padding: 8px 12px;
+    text-align: left;
+    border-radius: 4px;
+    display: block;
+    /* Asegurar que el botón captura todos los clicks, no el contenido */
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    cursor: pointer;
+}
+
+#context-menu button:hover, #lock-menu button:hover, #overflow-menu button:hover {
+    background-color: var(--selected-bg-color);
+}
+
+#lock-menu button:disabled {
+    color: #9e9e9e;
+    cursor: not-allowed;
+    background-color: transparent;
+}
+
+#lock-menu hr, #overflow-menu hr {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 5px 0;
+}
+
+/* Overflow menu - Grid mode (icon only) */
+#overflow-menu.icon-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px;
+    padding: 8px;
+    min-width: 180px;
+    max-width: 220px;
+}
+
+#overflow-menu.icon-grid button {
+    width: auto !important;
+    height: 40px;
+    padding: 8px !important;
+    text-align: center !important;
+    justify-content: center;
+    font-size: 1.2rem !important;
+    display: flex !important;
+    align-items: center;
+    cursor: pointer;
+    background: none;
+    border: none;
+    color: var(--text-color);
+    border-radius: 4px;
+    pointer-events: auto;
+    /* Asegurar que el botón captura todos los clicks, no el contenido (emoji) */
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+}
+
+/* Formatting Toolbar */
+#formatting-toolbar {
+    padding: 5px;
+    background-color: #212121;
+    align-items: center;
+    gap: 5px;
+}
+
+#formatting-toolbar button {
+    color: #424242;
+    background-color: white;
+    font-weight: bold;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    width: 36px;
+    height: 36px;
+}
+
+#formatting-toolbar button:hover, #formatting-toolbar button.active {
+    color: white;
+    background-color: #424242;
+}
+
+#formatting-toolbar input[type="color"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 28px;
+    height: 28px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+#formatting-toolbar input[type="color"]::-webkit-color-swatch {
+    border-radius: 50%;
+    border: 2px solid #fff;
+}
+
+#formatting-toolbar input[type="color"]::-moz-color-swatch {
+    border-radius: 50%;
+    border: 2px solid #fff;
+}
+
+#font-size-input {
+    width: 45px;
+    background-color: #424242;
+    color: white;
+    border: 1px solid #616161;
+    border-radius: 4px;
+    text-align: center;
+    padding: 4px;
+    -moz-appearance: textfield;
+}
+
+#font-size-input::-webkit-outer-spin-button,
+#font-size-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

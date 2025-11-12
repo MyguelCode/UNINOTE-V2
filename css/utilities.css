@@ -1,0 +1,144 @@
+/* === UTILIDADES - UNINOTE === */
+
+.hidden {
+    display: none !important;
+}
+
+.is-filtered {
+    display: none !important;
+}
+
+/* Bulk Actions Bar */
+#bulk-actions-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #263238;
+    color: white;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    transform: translateY(100%);
+    transition: transform 0.3s ease-in-out;
+    z-index: 999;
+}
+
+#bulk-actions-bar.visible {
+    transform: translateY(0);
+}
+
+#bulk-actions-bar button {
+    background-color: #546e7a;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+#bulk-actions-bar button#delete-selected-btn {
+    background-color: #e53935;
+}
+
+/* Scroll Buttons */
+#scroll-buttons {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    z-index: 998;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.scroll-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #3949ab;
+    color: white;
+    border: none;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.scroll-btn:hover {
+    background-color: #283593;
+}
+
+/* Notification Area */
+#notification-area {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Notification Center */
+#notification-center-btn {
+    position: relative;
+    font-size: 1.2rem;
+    padding: 0.6rem;
+}
+
+#notification-dot {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 10px;
+    height: 10px;
+    background-color: #e53935;
+    border-radius: 50%;
+    border: 2px solid var(--primary-lighter-color);
+}
+
+#notification-list li {
+    background-color: var(--bg-color);
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    border-left: 5px solid transparent;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#notification-list li:hover {
+    background-color: var(--selected-bg-color);
+}
+
+#notification-list li.notif-overdue {
+    border-left-color: var(--overdue-color);
+}
+
+#notification-list li.notif-urgent {
+    border-left-color: var(--alert-urgent-color);
+}
+
+#notification-list .notif-text {
+    display: block;
+    margin-bottom: 4px;
+}
+
+#notification-list .notif-due {
+    font-size: 0.8rem;
+    font-style: italic;
+}
+
+#notification-list .notif-empty {
+    text-align: center;
+    padding: 2rem;
+    color: #9e9e9e;
+}

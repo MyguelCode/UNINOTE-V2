@@ -1,0 +1,49 @@
+/* === VARIABLES CSS - UNINOTE === */
+
+:root {
+    /* Colores base - Tema Claro */
+    --bg-color: #f4f7f9;
+    --note-bg-color: white;
+    --text-color: #333;
+    --border-color: #e0e0e0;
+
+    /* Colores primarios */
+    --primary-color: #1a237e;
+    --primary-light-color: #3949ab;
+    --primary-lighter-color: #5c6bc0;
+
+    /* Colores de estado */
+    --selected-bg-color: #e8eaf6;
+    --modal-bg-color: white;
+    --inprogress-bg-color: #fff9c4;
+    --done-bg-color: #c8e6c9;
+
+    /* Colores de alerta */
+    --alert-early-color: #f59e0b;
+    --alert-urgent-color: #ef4444;
+    --overdue-color: #b91c1c;
+
+    /* Colores de bloqueo */
+    --locked-bg-color: #e0e0e0;
+    --locked-text-color: #616161;
+}
+
+/* Tema Oscuro */
+[data-theme="dark"] {
+    --bg-color: #121212;
+    --note-bg-color: #1e1e1e;
+    --text-color: #e0e0e0;
+    --border-color: #333;
+    --primary-color: #9fa8da;
+    --primary-light-color: #7986cb;
+    --primary-lighter-color: #5c6bc0;
+    --selected-bg-color: #312a4c;
+    --modal-bg-color: #2a2a2a;
+    --inprogress-bg-color: #4a4629;
+    --done-bg-color: #2e7d32;
+    --alert-early-color: #facc15;
+    --alert-urgent-color: #f87171;
+    --overdue-color: #dc2626;
+    --locked-bg-color: #424242;
+    --locked-text-color: #bdbdbd;
+}

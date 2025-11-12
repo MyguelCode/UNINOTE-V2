@@ -1,0 +1,137 @@
+/* === LAYOUT - UNINOTE === */
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 1rem;
+    margin-bottom: 0;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.document-title-container, .transfer-menu-container {
+    position: relative;
+}
+
+#document-title {
+    font-size: 1.75rem;
+    color: var(--primary-color);
+    margin: 0;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 8px;
+    transition: background-color 0.2s;
+}
+
+#document-title:hover {
+    background-color: var(--selected-bg-color);
+}
+
+#tabs-container {
+    display: flex;
+    gap: 5px;
+    padding: 10px 0;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    flex-wrap: wrap;
+}
+
+.tab-button {
+    background-color: transparent;
+    border: 2px solid var(--border-color);
+    color: var(--text-color);
+    padding: 5px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.9rem;
+}
+
+.tab-button.active {
+    background-color: var(--primary-light-color);
+    color: white;
+    border-color: var(--primary-light-color);
+}
+
+.search-container {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 250px;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+#search-input {
+    padding: 0.6rem 1rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background-color: var(--note-bg-color);
+    color: var(--text-color);
+    width: 100%;
+    max-width: 400px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+#search-input:focus {
+    border-color: var(--primary-light-color);
+    box-shadow: 0 0 0 3px rgba(57, 73, 171, 0.2);
+    outline: none;
+}
+
+.global-search-toggle {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+
+.global-search-toggle label {
+    cursor: pointer;
+}
+
+#notes-counter {
+    font-size: 0.85rem;
+    color: var(--locked-text-color);
+    white-space: nowrap;
+    background-color: var(--note-bg-color);
+    padding: 4px 8px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+}
+
+.header-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.header-actions button, .header-actions label {
+    background-color: var(--primary-lighter-color);
+    color: white;
+    border: none;
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    text-align: center;
+}
+
+.header-actions button:hover, .header-actions label:hover {
+    background-color: var(--primary-light-color);
+}
+
+#add-main-note-btn {
+    background-color: var(--primary-light-color);
+}
+
+#relock-doc-btn {
+    background-color: #f59e0b;
+}
