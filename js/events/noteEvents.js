@@ -499,6 +499,7 @@ async function handleNoteAction(e, action, noteLi, noteData, parentArray, index,
       // Calcular dimensiones del viewport
       const viewportHeight = window.innerHeight;
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
 
       // Margen de seguridad
       const MARGIN = 10;
@@ -550,9 +551,9 @@ async function handleNoteAction(e, action, noteLi, noteData, parentArray, index,
         menuLeftPos = window.innerWidth - overflowMenu.offsetWidth - MARGIN;
       }
 
-      // Aplicar posición final
-      overflowMenu.style.top = `${menuTop}px`;
-      overflowMenu.style.left = `${menuLeftPos}px`;
+      // Aplicar posición final - IMPORTANTE: Agregar scroll offset para position: absolute
+      overflowMenu.style.top = `${menuTop + scrollTop}px`;
+      overflowMenu.style.left = `${menuLeftPos + scrollLeft}px`;
 
       console.log('🟢 SHOW-MENU: Menú posicionado y mostrado', {
         display: overflowMenu.style.display,
