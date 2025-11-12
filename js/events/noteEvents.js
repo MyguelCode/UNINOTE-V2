@@ -374,13 +374,13 @@ async function handleNoteAction(e, action, noteLi, noteData, parentArray, index,
     case 'emoji-picker':
       e.stopPropagation();
       const emojiRect = target.getBoundingClientRect();
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+      const emojiScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const emojiScrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
       iconPicker.style.display = 'block';
-      iconPicker.style.top = `${emojiRect.bottom + scrollTop + 5}px`;
+      iconPicker.style.top = `${emojiRect.bottom + emojiScrollTop + 5}px`;
       let emojiLeftPos = emojiRect.left - iconPicker.offsetWidth + emojiRect.width;
       if (emojiLeftPos < 0) emojiLeftPos = 5;
-      iconPicker.style.left = `${emojiLeftPos + scrollLeft}px`;
+      iconPicker.style.left = `${emojiLeftPos + emojiScrollLeft}px`;
       STATE.activeNoteForMenu = noteLi;
       document.querySelector('.picker-tabs button[data-tab="common"]').click();
       break;
