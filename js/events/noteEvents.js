@@ -412,17 +412,68 @@ async function handleNoteAction(e, action, noteLi, noteData, parentArray, index,
         const button = document.createElement('button');
         button.dataset.action = btn.action;
 
-        if (config.menuShowText) {
-          button.innerHTML = `${btn.icon} ${btn.label}`;
-        } else {
-          button.innerHTML = btn.icon;
-          button.title = btn.label;
+        // Determinar icono y contenido según el tipo de botón (misma lógica que botones visibles)
+        let buttonIcon = btn.icon;
+        let buttonLabel = btn.label;
+
+        // Lógica especial para ciertos botones (igual que en NoteRenderer.js)
+        if (btn.id === 'estado') {
+          // Obtener el estado actual de la nota
+          const currentStatus = noteLi.dataset.status || 'todo';
+          switch(currentStatus) {
+            case 'inprogress':
+              buttonIcon = '🟡';
+              buttonLabel = 'Estado: En Progreso';
+              break;
+            case 'done':
+              buttonIcon = '🟢';
+              buttonLabel = 'Estado: Hecho';
+              break;
+            default:
+              buttonIcon = '⚪';
+              buttonLabel = 'Estado: Sin Hacer';
+              break;
+          }
+        } else if (btn.id === 'agregarSubNota') {
+          buttonIcon = '➕';
+          // Mantener el label original
+        } else if (btn.id === 'candado') {
+          // Verificar si la nota está bloqueada
+          const hasLock = noteLi.dataset.lockType && noteLi.dataset.passwordHash;
+          const isUnlocked = STATE.sessionUnlockedNotes.has(noteLi.dataset.id);
+          if (hasLock && !isUnlocked) {
+            buttonIcon = '🔒';
+            buttonLabel = 'Bloqueada';
+          } else if (hasLock && isUnlocked) {
+            buttonIcon = '🔓';
+            buttonLabel = 'Desbloqueada (temp)';
+          } else {
+            buttonIcon = '🔓';
+            buttonLabel = 'Sin bloqueo';
+          }
+        } else if (btn.id === 'fechaLimite') {
+          // Verificar si tiene fecha límite
+          if (noteLi.dataset.dueDate) {
+            buttonIcon = '📅';
+            buttonLabel = 'Fecha límite';
+          } else {
+            buttonIcon = '📅';
+            buttonLabel = 'Establecer fecha';
+          }
         }
 
-        // Estilo especial para botones Phase 2
+        // Generar contenido con o sin texto
+        if (config.menuShowText) {
+          button.innerHTML = `${buttonIcon} ${buttonLabel}`;
+        } else {
+          button.innerHTML = buttonIcon;
+          button.title = buttonLabel;
+        }
+
+        // Estilo especial para botones Phase 2 (no funcionales)
         if (!btn.functional) {
           button.style.opacity = '0.5';
-          button.title = `${btn.label} (Próximamente)`;
+          button.title = `${buttonLabel} (Próximamente)`;
         }
 
         overflowMenu.appendChild(button);
