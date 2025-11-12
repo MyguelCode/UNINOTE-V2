@@ -16,21 +16,21 @@ export class ButtonConfigService {
       id: 'estado',
       icon: '☑',
       label: 'Estado',
-      action: 'toggle-status',
+      action: 'cycle-status',
       functional: true
     },
     fechaLimite: {
       id: 'fechaLimite',
       icon: '📅',
       label: 'Fecha límite',
-      action: 'set-deadline',
+      action: 'set-date',
       functional: true
     },
     candado: {
       id: 'candado',
       icon: '🔒',
       label: 'Candado',
-      action: 'toggle-lock',
+      action: 'lock',
       functional: true
     },
     duplicar: {
@@ -51,7 +51,7 @@ export class ButtonConfigService {
       id: 'agregarSubNota',
       icon: '↳',
       label: 'Agregar sub-nota',
-      action: 'add-child',
+      action: 'add-subnote',
       functional: true
     },
     emojiPicker: {
