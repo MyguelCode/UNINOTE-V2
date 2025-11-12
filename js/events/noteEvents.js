@@ -155,7 +155,7 @@ export function initializeNoteEvents() {
       iconPicker.style.top = `${rect.bottom + window.scrollY + 5}px`;
       let menuLeftPos = rect.left - iconPicker.offsetWidth + rect.width;
       if (menuLeftPos < 0) menuLeftPos = 5;
-      iconPicker.style.left = `${menuLeftPos}px`;
+      iconPicker.style.left = `${menuLeftPos + window.scrollX}px`;
 
       document.querySelector('.picker-tabs button[data-tab="common"]').click();
     }
@@ -324,10 +324,12 @@ async function handleNoteAction(e, action, noteLi, noteData, parentArray, index,
       e.stopPropagation();
       STATE.activeNoteForLock = noteLi;
       const rect = target.getBoundingClientRect();
+      const lockScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const lockScrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
       lockMenu.style.display = 'block';
-      lockMenu.style.top = `${rect.bottom + 5}px`;
+      lockMenu.style.top = `${rect.bottom + lockScrollTop + 5}px`;
       let leftPos = rect.left - lockMenu.offsetWidth + rect.width;
-      lockMenu.style.left = `${Math.max(5, leftPos)}px`;
+      lockMenu.style.left = `${Math.max(5, leftPos) + lockScrollLeft}px`;
 
       const hasLockData = noteLi.dataset.lockType && noteLi.dataset.passwordHash;
       const isTemporarilyUnlocked = STATE.sessionUnlockedNotes.has(noteLi.dataset.id);
@@ -372,11 +374,13 @@ async function handleNoteAction(e, action, noteLi, noteData, parentArray, index,
     case 'emoji-picker':
       e.stopPropagation();
       const emojiRect = target.getBoundingClientRect();
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
       iconPicker.style.display = 'block';
-      iconPicker.style.top = `${emojiRect.bottom + 5}px`;
+      iconPicker.style.top = `${emojiRect.bottom + scrollTop + 5}px`;
       let emojiLeftPos = emojiRect.left - iconPicker.offsetWidth + emojiRect.width;
       if (emojiLeftPos < 0) emojiLeftPos = 5;
-      iconPicker.style.left = `${emojiLeftPos}px`;
+      iconPicker.style.left = `${emojiLeftPos + scrollLeft}px`;
       STATE.activeNoteForMenu = noteLi;
       document.querySelector('.picker-tabs button[data-tab="common"]').click();
       break;
