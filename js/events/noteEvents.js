@@ -609,14 +609,28 @@ async function handleNoteAction(e, action, noteLi, noteData, parentArray, index,
         nextTitle = 'Estado: Sin Hacer';
       }
 
+      // Actualizar estado en dataset y noteData
       noteLi.dataset.status = nextStatus;
       if (noteData) noteData.status = nextStatus;
+
+      // Actualizar botón que se clickeó (puede ser el visible o el del menú)
       target.textContent = nextIcon;
       target.title = nextTitle;
+
+      // IMPORTANTE: Si existe un botón de estado visible en la nota, también actualizarlo
+      // (esto es necesario cuando el click viene del menú overflow)
+      const visibleStatusBtn = noteLi.querySelector('[data-action="cycle-status"]');
+      if (visibleStatusBtn && visibleStatusBtn !== target) {
+        visibleStatusBtn.textContent = nextIcon;
+        visibleStatusBtn.title = nextTitle;
+      }
 
       const parentNote = noteLi.parentElement.closest('.note');
       NoteController.checkParentStatus(parentNote);
       StateController.runUpdates();
+
+      // Guardar documento después de cambiar estado
+      await DocumentController.saveCurrentDocument();
       break;
 
     case 'toggle':
