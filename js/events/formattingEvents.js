@@ -61,8 +61,20 @@ export function initializeFormattingEvents() {
     // Emoji selection
     if (target.parentElement.classList.contains('picker-panel')) {
       if (STATE.activeNoteForMenu) {
-        STATE.activeNoteForMenu.querySelector('.note-icon').textContent = target.textContent;
-        Features.addEmojiToRecents(target.textContent);
+        const noteLi = STATE.activeNoteForMenu;
+        const emoji = target.textContent;
+
+        // Actualizar icono en el DOM
+        noteLi.querySelector('.note-icon').textContent = emoji;
+
+        // IMPORTANTE: Actualizar también en noteData para que persista
+        const noteId = noteLi.dataset.id;
+        const { note: noteData } = window.NoteController.findNoteData(STATE.currentNotesData, noteId) || {};
+        if (noteData) {
+          noteData.icon = emoji;
+        }
+
+        Features.addEmojiToRecents(emoji);
         StateController.runUpdates();
       }
       iconPicker.style.display = 'none';

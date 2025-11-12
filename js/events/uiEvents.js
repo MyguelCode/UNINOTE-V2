@@ -200,11 +200,19 @@ export function initializeUIEvents() {
 
   // Date picker
   saveDateBtn.addEventListener('click', async () => {
-    if (STATE.activeNoteForDatePicker && dateTimeInput.value) {
-      const date = new Date(dateTimeInput.value);
-      STATE.activeNoteForDatePicker.dataset.dueDate = date.toISOString();
-    } else if (STATE.activeNoteForDatePicker) {
-      STATE.activeNoteForDatePicker.dataset.dueDate = '';
+    if (STATE.activeNoteForDatePicker) {
+      const noteLi = STATE.activeNoteForDatePicker;
+      const dateISO = dateTimeInput.value ? new Date(dateTimeInput.value).toISOString() : '';
+
+      // Actualizar en el DOM
+      noteLi.dataset.dueDate = dateISO;
+
+      // IMPORTANTE: Actualizar también en noteData para que persista
+      const noteId = noteLi.dataset.id;
+      const { note: noteData } = window.NoteController.findNoteData(STATE.currentNotesData, noteId) || {};
+      if (noteData) {
+        noteData.dueDate = dateISO;
+      }
     }
     datePickerModalOverlay.classList.add('hidden');
     StateController.runUpdates();
@@ -215,7 +223,18 @@ export function initializeUIEvents() {
 
   removeDateBtn.addEventListener('click', async () => {
     if (STATE.activeNoteForDatePicker) {
-      STATE.activeNoteForDatePicker.dataset.dueDate = '';
+      const noteLi = STATE.activeNoteForDatePicker;
+
+      // Actualizar en el DOM
+      noteLi.dataset.dueDate = '';
+
+      // IMPORTANTE: Actualizar también en noteData para que persista
+      const noteId = noteLi.dataset.id;
+      const { note: noteData } = window.NoteController.findNoteData(STATE.currentNotesData, noteId) || {};
+      if (noteData) {
+        noteData.dueDate = '';
+      }
+
       datePickerModalOverlay.classList.add('hidden');
       StateController.runUpdates();
 

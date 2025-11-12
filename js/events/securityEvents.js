@@ -53,10 +53,24 @@ export function initializeSecurityEvents() {
 
     const applyLock = async (hash, type) => {
       const editable = noteToProcess.querySelector('.editable-note');
-      noteToProcess.dataset.lockedContent = editable.innerHTML;
+      const lockedContent = editable.innerHTML;
+      const lockHint = editable.textContent.substring(0, 30).trim() || "Nota bloqueada";
+
+      // Actualizar en el DOM
+      noteToProcess.dataset.lockedContent = lockedContent;
       noteToProcess.dataset.lockType = type;
-      noteToProcess.dataset.lockHint = editable.textContent.substring(0, 30).trim() || "Nota bloqueada";
+      noteToProcess.dataset.lockHint = lockHint;
       noteToProcess.dataset.passwordHash = JSON.stringify(hash);
+
+      // IMPORTANTE: Actualizar también en noteData para que persista
+      const noteId = noteToProcess.dataset.id;
+      const { note: noteData } = NoteController.findNoteData(STATE.currentNotesData, noteId) || {};
+      if (noteData) {
+        noteData.lockType = type;
+        noteData.lockHint = lockHint;
+        noteData.passwordHash = hash;
+      }
+
       NoteRenderer.renderNoteState(noteToProcess);
       StateController.runUpdates();
 
@@ -74,10 +88,24 @@ export function initializeSecurityEvents() {
       if (newPass) {
         const hashData = await SecurityService.hashPasswordWithSalt(newPass);
         const noteToLock = noteToProcess;
-        noteToLock.dataset.lockedContent = noteToLock.querySelector('.editable-note').innerHTML;
+        const lockedContent = noteToLock.querySelector('.editable-note').innerHTML;
+        const hint = newHint || 'Contenido bloqueado';
+
+        // Actualizar en el DOM
+        noteToLock.dataset.lockedContent = lockedContent;
         noteToLock.dataset.lockType = 'exclusive';
-        noteToLock.dataset.lockHint = newHint || 'Contenido bloqueado';
+        noteToLock.dataset.lockHint = hint;
         noteToLock.dataset.passwordHash = JSON.stringify(hashData);
+
+        // IMPORTANTE: Actualizar también en noteData para que persista
+        const noteId = noteToLock.dataset.id;
+        const { note: noteData } = NoteController.findNoteData(STATE.currentNotesData, noteId) || {};
+        if (noteData) {
+          noteData.lockType = 'exclusive';
+          noteData.lockHint = hint;
+          noteData.passwordHash = hashData;
+        }
+
         NoteRenderer.renderNoteState(noteToLock);
         StateController.runUpdates();
 
