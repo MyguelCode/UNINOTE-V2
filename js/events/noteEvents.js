@@ -496,32 +496,63 @@ async function handleNoteAction(e, action, noteLi, noteData, parentArray, index,
         overflowMenu.style.display = 'grid';
       }
 
-      // Agregar max-height y scroll para evitar que se salga de la pantalla
+      // Calcular dimensiones del viewport
       const viewportHeight = window.innerHeight;
-      const maxHeight = viewportHeight - 100; // Dejar 100px de margen
-      overflowMenu.style.maxHeight = `${maxHeight}px`;
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+      // Margen de seguridad
+      const MARGIN = 10;
+      const MAX_HEIGHT = viewportHeight - (MARGIN * 2);
+
+      // Establecer max-height para evitar que el menú sea demasiado alto
+      overflowMenu.style.maxHeight = `${MAX_HEIGHT}px`;
       overflowMenu.style.overflowY = 'auto';
 
-      // Calcular posición inicial (debajo del botón)
-      let menuTop = menuRect.bottom + 5;
+      // Posicionar temporalmente para obtener altura real
+      overflowMenu.style.visibility = 'hidden';
+      overflowMenu.style.display = config.menuShowText ? 'block' : 'grid';
+      const menuHeight = Math.min(overflowMenu.offsetHeight, MAX_HEIGHT);
+      overflowMenu.style.visibility = 'visible';
 
-      // Posicionar temporalmente para obtener dimensiones
-      overflowMenu.style.top = `${menuTop}px`;
-      let menuLeftPos = menuRect.left - overflowMenu.offsetWidth + menuRect.width;
-      if (menuLeftPos < 0) menuLeftPos = 5;
-      overflowMenu.style.left = `${menuLeftPos}px`;
+      // Calcular espacio disponible
+      const buttonBottom = menuRect.bottom;
+      const buttonTop = menuRect.top;
+      const spaceBelow = viewportHeight - buttonBottom;
+      const spaceAbove = buttonTop;
 
-      // Verificar si el menú se sale de la pantalla por abajo
-      const menuHeight = overflowMenu.offsetHeight;
-      const spaceBelow = viewportHeight - menuRect.bottom;
-      const spaceAbove = menuRect.top;
+      let menuTop;
 
-      // Si no cabe abajo pero sí arriba, mostrar arriba del botón
-      if (menuTop + menuHeight > viewportHeight && spaceAbove > spaceBelow) {
-        menuTop = menuRect.top - menuHeight - 5;
-        overflowMenu.style.top = `${menuTop}px`;
-        console.log('🟢 SHOW-MENU: Reposicionado arriba del botón');
+      // Decidir si mostrar arriba o abajo
+      if (spaceBelow >= menuHeight + MARGIN) {
+        // Hay espacio abajo: mostrar debajo del botón
+        menuTop = buttonBottom + MARGIN;
+      } else if (spaceAbove >= menuHeight + MARGIN) {
+        // No cabe abajo pero sí arriba: mostrar arriba del botón
+        menuTop = buttonTop - menuHeight - MARGIN;
+      } else {
+        // No cabe completo ni arriba ni abajo: usar el lado con más espacio
+        if (spaceBelow > spaceAbove) {
+          // Más espacio abajo: alinear con el bottom del viewport
+          menuTop = viewportHeight - menuHeight - MARGIN;
+        } else {
+          // Más espacio arriba: alinear con el top del viewport
+          menuTop = MARGIN;
+        }
       }
+
+      // Asegurar que el menú nunca se salga del viewport
+      menuTop = Math.max(MARGIN, Math.min(menuTop, viewportHeight - menuHeight - MARGIN));
+
+      // Posición horizontal (alineado a la derecha del botón)
+      let menuLeftPos = menuRect.left - overflowMenu.offsetWidth + menuRect.width;
+      if (menuLeftPos < MARGIN) menuLeftPos = MARGIN;
+      if (menuLeftPos + overflowMenu.offsetWidth > window.innerWidth - MARGIN) {
+        menuLeftPos = window.innerWidth - overflowMenu.offsetWidth - MARGIN;
+      }
+
+      // Aplicar posición final
+      overflowMenu.style.top = `${menuTop}px`;
+      overflowMenu.style.left = `${menuLeftPos}px`;
 
       console.log('🟢 SHOW-MENU: Menú posicionado y mostrado', {
         display: overflowMenu.style.display,
@@ -530,7 +561,11 @@ async function handleNoteAction(e, action, noteLi, noteData, parentArray, index,
         left: overflowMenu.style.left,
         maxHeight: overflowMenu.style.maxHeight,
         menuHeight: menuHeight,
-        viewportHeight: viewportHeight
+        viewportHeight: viewportHeight,
+        buttonBottom: buttonBottom,
+        buttonTop: buttonTop,
+        spaceBelow: spaceBelow,
+        spaceAbove: spaceAbove
       });
 
       STATE.activeNoteForMenu = noteLi;

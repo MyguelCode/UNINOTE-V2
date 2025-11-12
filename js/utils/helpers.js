@@ -43,42 +43,53 @@ export function createNote(parentList, afterElement = null, shouldFocus = false,
     li.dataset.lockedContent = noteData.content || '';
   }
 
-  li.innerHTML = `
-    <div class="note-container">
-      <input type="checkbox" class="note-selector" title="Seleccionar nota">
-      <button class="drag-handle" data-action="drag" draggable="true" title="Arrastrar para mover">⠿</button>
-      <span class="note-icon"></span>
-      <button data-action="cycle-status" title="Estado: Sin Hacer">⚪</button>
-      <button data-action="set-date" title="Asignar Fecha Límite">🗓️</button>
-      <span class="countdown-timer"></span>
-      <button data-action="lock" title="Opciones de Bloqueo">🔒</button>
-      <button data-action="duplicate" title="Duplicar Nota">⧉</button>
-      <button data-action="toggle"></button>
-      <span class="note-number" title="Creado el: ${new Date(noteData.creationDate).toLocaleString()}"></span>
-      <div class="editable-note" contenteditable="true">${noteData.content || ''}</div>
-      <button data-action="add-sibling" title="Añadir Nota Hermana">➕</button>
-      <button data-action="add-subnote" title="Añadir Subnota"><sub>➕</sub></button>
-      <button data-action="show-menu" title="Más Opciones">⋮</button>
-      <button data-action="unarchive" title="Desarchivar Nota">📤</button>
-      <button data-action="archive" title="Archivar Nota">📥</button>
-      <button data-action="delete" title="Eliminar Nota">🗑️</button>
-    </div>
-  `;
-
-  const statusBtn = li.querySelector('[data-action="cycle-status"]');
-  switch (li.dataset.status) {
-    case 'inprogress':
-      statusBtn.textContent = '🟡';
-      break;
-    case 'done':
-      statusBtn.textContent = '🟢';
-      break;
-    default:
-      statusBtn.textContent = '⚪';
-      break;
+  // IMPORTANTE: Usar NoteRenderer.generateNoteHTML para respetar configuración de botones
+  if (window.NoteRenderer && window.NoteRenderer.generateNoteHTML) {
+    li.innerHTML = window.NoteRenderer.generateNoteHTML(noteData);
+  } else {
+    // Fallback si NoteRenderer no está disponible (no debería pasar)
+    li.innerHTML = `
+      <div class="note-container">
+        <input type="checkbox" class="note-selector" title="Seleccionar nota">
+        <button class="drag-handle" data-action="drag" draggable="true" title="Arrastrar para mover">⠿</button>
+        <span class="note-icon"></span>
+        <button data-action="cycle-status" title="Estado: Sin Hacer">⚪</button>
+        <button data-action="set-date" title="Asignar Fecha Límite">🗓️</button>
+        <span class="countdown-timer"></span>
+        <button data-action="lock" title="Opciones de Bloqueo">🔒</button>
+        <button data-action="duplicate" title="Duplicar Nota">⧉</button>
+        <button data-action="toggle"></button>
+        <span class="note-number" title="Creado el: ${new Date(noteData.creationDate).toLocaleString()}"></span>
+        <div class="editable-note" contenteditable="true">${noteData.content || ''}</div>
+        <button data-action="add-sibling" title="Añadir Nota Hermana">➕</button>
+        <button data-action="add-subnote" title="Añadir Subnota"><sub>➕</sub></button>
+        <button data-action="show-menu" title="Más Opciones">⋮</button>
+        <button data-action="unarchive" title="Desarchivar Nota">📤</button>
+        <button data-action="archive" title="Archivar Nota">📥</button>
+        <button data-action="delete" title="Eliminar Nota">🗑️</button>
+      </div>
+    `;
   }
 
-  li.querySelector('.note-icon').textContent = noteData.icon || '';
+  const statusBtn = li.querySelector('[data-action="cycle-status"]');
+  if (statusBtn) {
+    switch (li.dataset.status) {
+      case 'inprogress':
+        statusBtn.textContent = '🟡';
+        break;
+      case 'done':
+        statusBtn.textContent = '🟢';
+        break;
+      default:
+        statusBtn.textContent = '⚪';
+        break;
+    }
+  }
+
+  const iconEl = li.querySelector('.note-icon');
+  if (iconEl) {
+    iconEl.textContent = noteData.icon || '';
+  }
 
   if (afterElement) {
     parentList.insertBefore(li, afterElement.nextSibling);
